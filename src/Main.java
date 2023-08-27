@@ -23,75 +23,27 @@ public class Main {
         }).start();
 
         new Thread(() -> {
-            int max = 0;
-            String maxTextA = null;
-            for (int i = 0; i < 10_000; i++) {
-                int maxInText = 0;
-                try {
-                    String textA = maxA.take();
-                    char[] text = textA.toCharArray();
-                    for (char s : text) {
-                        if (s == 'a') {
-                            maxInText++;
-                        }
-                    }
-                    if (maxInText > max) {
-                        max = maxInText;
-                        maxTextA = textA;
-                    }
-                } catch (InterruptedException e) {
-                    return;
-                }
+            try {
+                System.out.println("Текст с максимальным количеством букв a (" + maxABC(maxA, 'a') + "):\n");// + maxTextA + "\n");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-            System.out.println("Текст с максимальным количеством букв a (" + max + "):\n" + maxTextA + "\n");
         }).start();
 
         new Thread(() -> {
-            int max = 0;
-            String maxTextB = null;
-            for (int i = 0; i < 10_000; i++) {
-                int maxInText = 0;
-                try {
-                    String textB = maxB.take();
-                    char[] text = textB.toCharArray();
-                    for (char s : text) {
-                        if (s == 'a') {
-                            maxInText++;
-                        }
-                    }
-                    if (maxInText > max) {
-                        max = maxInText;
-                        maxTextB = textB;
-                    }
-                } catch (InterruptedException e) {
-                    return;
-                }
+            try {
+                System.out.println("Текст с максимальным количеством букв b (" + maxABC(maxB, 'b') + "):\n");// + maxTextB + "\n");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-            System.out.println("Текст с максимальным количеством букв b (" + max + "):\n" + maxTextB + "\n");
         }).start();
 
         new Thread(() -> {
-            int max = 0;
-            String maxTextC = null;
-            for (int i = 0; i < 10_000; i++) {
-                int maxInText = 0;
-                try {
-                    String textC = maxC.take();
-                    char[] text = textC.toCharArray();
-                    for (char s : text) {
-                        if (s == 'a') {
-                            maxInText++;
-                        }
-                    }
-                    if (maxInText > max) {
-                        max = maxInText;
-                        maxTextC = textC;
-                    }
-                } catch (InterruptedException e) {
-                    return;
-                }
+            try {
+                System.out.println("Текст с максимальным количеством букв c (" + maxABC(maxC, 'c') + "):\n");// + maxTextC + "\n");
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
             }
-            System.out.println("Текст с максимальным количеством букв c (" + max + "):\n" + maxTextC + "\n");
         }).start();
     }
 
@@ -102,6 +54,24 @@ public class Main {
             text.append(letters.charAt(random.nextInt(letters.length())));
         }
         return text.toString();
+    }
+
+    public static int maxABC(BlockingQueue<String> testABC, char abc) throws InterruptedException {
+        int max = 0;
+        for (int i = 0; i < 10_000; i++) {
+            int maxInText = 0;
+            String texts = testABC.take();
+            char[] text = texts.toCharArray();
+            for (char s : text) {
+                if (s == abc) {
+                    maxInText++;
+                }
+            }
+            if (maxInText > max) {
+                max = maxInText;
+            }
+        }
+        return max;
     }
 
 }
