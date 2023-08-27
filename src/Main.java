@@ -23,27 +23,33 @@ public class Main {
         }).start();
 
         new Thread(() -> {
+            MaxTextABC<String, Integer> maxTextABC;
             try {
-                System.out.println("Текст с максимальным количеством букв a (" + maxABC(maxA, 'a') + "):\n");// + maxTextA + "\n");
+                maxTextABC = getMax(maxA, 'a');
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            System.out.println("Текст с максимальным количеством букв a (" + maxTextABC.getCount() + "):\n" + maxTextABC.getText() + "\n");
         }).start();
 
         new Thread(() -> {
+            MaxTextABC<String, Integer> maxTextABC;
             try {
-                System.out.println("Текст с максимальным количеством букв b (" + maxABC(maxB, 'b') + "):\n");// + maxTextB + "\n");
+                maxTextABC = getMax(maxB, 'b');
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            System.out.println("Текст с максимальным количеством букв b (" + maxTextABC.getCount() + "):\n" + maxTextABC.getText() + "\n");
         }).start();
 
         new Thread(() -> {
+            MaxTextABC<String, Integer> maxTextABC;
             try {
-                System.out.println("Текст с максимальным количеством букв c (" + maxABC(maxC, 'c') + "):\n");// + maxTextC + "\n");
+                maxTextABC = getMax(maxC, 'c');
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
+            System.out.println("Текст с максимальным количеством букв c (" + maxTextABC.getCount() + "):\n" + maxTextABC.getText() + "\n");
         }).start();
     }
 
@@ -56,22 +62,23 @@ public class Main {
         return text.toString();
     }
 
-    public static int maxABC(BlockingQueue<String> testABC, char abc) throws InterruptedException {
-        int max = 0;
+    public static MaxTextABC<String, Integer> getMax(BlockingQueue<String> maxABC, char abc) throws InterruptedException {
+        MaxTextABC<String, Integer> maxTextABC = new MaxTextABC<>();
+        maxTextABC.setCount(0);
         for (int i = 0; i < 10_000; i++) {
             int maxInText = 0;
-            String texts = testABC.take();
-            char[] text = texts.toCharArray();
+            String textABC = maxABC.take();
+            char[] text = textABC.toCharArray();
             for (char s : text) {
                 if (s == abc) {
                     maxInText++;
                 }
             }
-            if (maxInText > max) {
-                max = maxInText;
+            if (maxInText > maxTextABC.getCount()) {
+                maxTextABC.setCount(maxInText);
+                maxTextABC.setText(textABC);
             }
         }
-        return max;
+        return maxTextABC;
     }
-
 }
