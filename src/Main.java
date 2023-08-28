@@ -24,7 +24,7 @@ public class Main {
 
         new Thread(() -> {
             try {
-                System.out.println("Текст с максимальным количеством букв a (" + maxABC(maxA, 'a') + "):\n");// + maxTextA + "\n");
+                System.out.println("Текст с максимальным количеством букв a (" + maxABC(maxA, 'a') + "):\n");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -32,7 +32,7 @@ public class Main {
 
         new Thread(() -> {
             try {
-                System.out.println("Текст с максимальным количеством букв b (" + maxABC(maxB, 'b') + "):\n");// + maxTextB + "\n");
+                System.out.println("Текст с максимальным количеством букв b (" + maxABC(maxB, 'b') + "):\n");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -40,7 +40,7 @@ public class Main {
 
         new Thread(() -> {
             try {
-                System.out.println("Текст с максимальным количеством букв c (" + maxABC(maxC, 'c') + "):\n");// + maxTextC + "\n");
+                System.out.println("Текст с максимальным количеством букв c (" + maxABC(maxC, 'c') + "):\n");
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
